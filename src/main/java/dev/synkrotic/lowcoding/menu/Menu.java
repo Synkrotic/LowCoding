@@ -4,6 +4,8 @@ import dev.synkrotic.lowcoding.components.arithmetics.AdditionComponent;
 import dev.synkrotic.lowcoding.components.arithmetics.InvertComponent;
 import dev.synkrotic.lowcoding.components.arithmetics.DivisionComponent;
 import dev.synkrotic.lowcoding.components.arithmetics.MultiplyComponent;
+import dev.synkrotic.lowcoding.components.gates.AndComponent;
+import dev.synkrotic.lowcoding.components.gates.OrComponent;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.numbers.NumberComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
@@ -19,7 +21,9 @@ public class Menu extends JPanel {
         "Sum", AdditionComponent.class,
         "Invert", InvertComponent.class,
         "Multiply", MultiplyComponent.class,
-        "Divide", DivisionComponent.class
+        "Divide", DivisionComponent.class,
+        "AND", AndComponent.class,
+        "OR", OrComponent.class
     );
 
     public Menu(Environment env) {

@@ -28,6 +28,11 @@ public class Environment extends JPanel {
 
     private final List<LowComponent> components = new ArrayList<>();
 
+    // Zooming
+    public static float scale = 1;
+    public static float offsetX = 0;
+    public static float offsetY = 0;
+
 
     public Environment() {
         setLayout(new BorderLayout());
@@ -54,21 +59,29 @@ public class Environment extends JPanel {
         return components;
     }
 
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
 
-        Graphics2D g2d = (Graphics2D) g;
-        // First render lines so they appear beneath components
+        // Apply zoom transformations
+        g2d.translate(offsetX, offsetY);
+        g2d.scale(scale, scale);
+
         for (LowComponent component : components) {
             component.renderLines(g2d);
         }
-
         for (LowComponent component : components) {
-            component.renderComponent(g2d);
+            component.render(g2d);
         }
+
+        // Reset g2d for menu rendering
+        g2d.scale(1 / scale, 1 / scale);
+        g2d.translate(-offsetX, -offsetY);
     }
 }

@@ -15,41 +15,76 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
     private LowComponent activeComponent = null;
     private Point pressPoint = null;
 
+    private boolean isPanning = false;
+
+    private float startOffsetX;
+    private float startOffsetY;
+
     public EnvironmentMouseAdapter(Environment env) {
         this.env = env;
     }
 
-
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         int rotation = e.getWheelRotation();
+        Point worldPt = getEventPoint(e);
 
         for (LowComponent comp : env.getComponentsList()) {
-            if (comp.isMouseOver(e.getPoint())) {
+            if (comp.isMouseOver(worldPt)) {
                 if (comp instanceof NumberComponent numberComp) {
                     float currentValue = numberComp.getNumber();
-
                     if (rotation < 0) {
                         numberComp.setNumber(currentValue + 1f);
                     } else {
                         numberComp.setNumber(currentValue - 1f);
                     }
+                    return;
                 }
             }
+        }
+
+        if (!isPanning && env.getBounds().contains(e.getPoint())) {
+            float oldScale = Environment.scale;
+
+            if (rotation < 0) {
+                Environment.scale *= 1.1f;
+            } else {
+                Environment.scale /= 1.1f;
+            }
+
+            double mouseX = e.getX();
+            double mouseY = e.getY();
+
+            Environment.offsetX = (float) (mouseX - (mouseX - Environment.offsetX) * (Environment.scale / oldScale));
+            Environment.offsetY = (float) (mouseY - (mouseY - Environment.offsetY) * (Environment.scale / oldScale));
+
+            env.repaint();
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (SwingUtilities.isMiddleMouseButton(e)) {
+            isPanning = true;
+            pressPoint = e.getPoint();
+            startOffsetX = Environment.offsetX;
+            startOffsetY = Environment.offsetY;
+            return;
+        }
+
         pressPoint = e.getPoint();
 
+        startOffsetX = Environment.offsetX;
+        startOffsetY = Environment.offsetY;
+
+        Point worldPt = getEventPoint(e);
+
         for (LowComponent comp : env.getComponentsList()) {
-            if (comp.isMouseOver(e.getPoint())) {
+            if (comp.isMouseOver(worldPt)) {
                 activeComponent = comp;
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.moveClick(e);
+                    activeComponent.moveClick(translateEvent(e, worldPt));
                 }
-
                 break;
             }
         }
@@ -57,42 +92,73 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (SwingUtilities.isMiddleMouseButton(e)) {
+            isPanning = true;
+            Environment.offsetX = startOffsetX + (e.getX() - pressPoint.x);
+            Environment.offsetY = startOffsetY + (e.getY() - pressPoint.y);
+            env.repaint();
+            return;
+        }
+
         if (activeComponent == null) return;
 
+        Point worldPt = getEventPoint(e);
+        MouseEvent translatedE = translateEvent(e, worldPt);
+
         if (SwingUtilities.isLeftMouseButton(e)) {
-            activeComponent.moveHold(e);
-            activeComponent.onLeftHold(e);
+            activeComponent.moveHold(translatedE);
+            activeComponent.onLeftHold(translatedE);
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            activeComponent.lineHold(e);
-            activeComponent.onRightHold(e);
+            activeComponent.lineHold(translatedE);
+            activeComponent.onRightHold(translatedE);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (SwingUtilities.isMiddleMouseButton(e)) {
+            isPanning = false;
+            return;
+        }
+
         if (activeComponent != null) {
             double distance = pressPoint.distance(e.getPoint());
+            Point worldPt = getEventPoint(e);
+            MouseEvent translatedE = translateEvent(e, worldPt);
 
             int DRAG_THRESHOLD = 5;
             if (distance < DRAG_THRESHOLD) {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.onRightClick(e);
-                    activeComponent.lineRelease(e);
+                    activeComponent.onRightClick(translatedE);
+                    activeComponent.lineRelease(translatedE);
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.onLeftClick(e);
+                    activeComponent.onLeftClick(translatedE);
                     activeComponent.moveRelease();
                 }
             } else {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.onRightRelease(e);
-                    activeComponent.lineRelease(e);
+                    activeComponent.onRightRelease(translatedE);
+                    activeComponent.lineRelease(translatedE);
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.onLeftRelease(e);
+                    activeComponent.onLeftRelease(translatedE);
                     activeComponent.moveRelease();
                 }
             }
 
             activeComponent = null;
         }
+    }
+
+    private Point getEventPoint(MouseEvent e) {
+        int worldX = (int) ((e.getX() - Environment.offsetX) / Environment.scale);
+        int worldY = (int) ((e.getY() - Environment.offsetY) / Environment.scale);
+        return new Point(worldX, worldY);
+    }
+
+    private MouseEvent translateEvent(MouseEvent e, Point worldPt) {
+        return new MouseEvent(
+            (Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiersEx(),
+            worldPt.x, worldPt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()
+        );
     }
 }

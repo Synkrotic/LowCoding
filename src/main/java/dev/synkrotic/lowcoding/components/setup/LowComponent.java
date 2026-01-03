@@ -35,12 +35,15 @@ public abstract class LowComponent {
         int x = settings.loc().x() + (settings.size().width() - textWidth) / 2;
         int y = settings.loc().y() + (settings.size().height() - textHeight) / 2 + fm.getAscent();
 
+        g.setColor(Color.BLACK);
         g.drawString(text, x, y);
     }
 
     public boolean isMouseOver(Point mousePos) {
-        return mousePos.x >= settings.loc().x() && mousePos.x <= settings.loc().x() + settings.size().width() &&
-            mousePos.y >= settings.loc().y() && mousePos.y <= settings.loc().y() + settings.size().height();
+        return mousePos.x >= settings.loc().x() &&
+            mousePos.x <= settings.loc().x() + settings.size().width() &&
+            mousePos.y >= settings.loc().y() &&
+            mousePos.y <= settings.loc().y() + settings.size().height();
     }
 
     public void setLocation(Coord location) {
@@ -56,8 +59,11 @@ public abstract class LowComponent {
     }
     public void moveHold(MouseEvent e) {
         if (leftClickOffset != null) {
-            int newX = e.getX() - leftClickOffset.x();
-            int newY = e.getY() - leftClickOffset.y();
+            int scaledMouseX = e.getX();
+            int scaledMouseY = e.getY();
+
+            int newX = scaledMouseX - leftClickOffset.x();
+            int newY = scaledMouseY - leftClickOffset.y();
 
             settings.setLoc(new Coord(newX, newY));
             env.repaint();
@@ -116,13 +122,40 @@ public abstract class LowComponent {
         }
     }
 
-    // Abstracts
-    public void onLeftClick(MouseEvent e) { }
-    public void onLeftHold(MouseEvent e) { }
-    public void onLeftRelease(MouseEvent e) { }
-    public void onRightClick(MouseEvent e) { }
-    public void onRightHold(MouseEvent e) { }
-    public void onRightRelease(MouseEvent e) { }
+    public void render(Graphics2D g) {
+        g.setColor(getBackgroundColor());
+        g.fillRoundRect(
+            settings.loc().x(),
+            settings.loc().y(),
+            settings.size().width(),
+            settings.size().height(),
+            ROUNDING_RADIUS,
+            ROUNDING_RADIUS
+        );
+        renderComponent(g);
+    }
 
-    public abstract void renderComponent(Graphics2D g);
+    // Abstracts
+    public void onLeftClick(MouseEvent e) {
+        System.out.println(e);
+    }
+    public void onLeftHold(MouseEvent e) {
+        System.out.println(e);
+    }
+    public void onLeftRelease(MouseEvent e) {
+        System.out.println(e);
+    }
+    public void onRightClick(MouseEvent e) {
+        System.out.println(e);
+    }
+    public void onRightHold(MouseEvent e) {
+        System.out.println(e);
+    }
+    public void onRightRelease(MouseEvent e) {
+        System.out.println(e);
+    }
+
+    protected abstract Color getBackgroundColor();
+
+    protected abstract void renderComponent(Graphics2D g);
 }

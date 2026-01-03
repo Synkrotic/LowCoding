@@ -1,6 +1,5 @@
 package dev.synkrotic.lowcoding.components.arithmetics;
 
-import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowNumber;
@@ -9,7 +8,7 @@ import java.awt.*;
 
 public class MultiplyComponent extends ArithmeticComponent {
     public MultiplyComponent(Environment env) {
-        super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
+        super(env);
     }
 
     @Override

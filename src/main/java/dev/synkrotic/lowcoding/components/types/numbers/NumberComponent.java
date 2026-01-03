@@ -24,6 +24,11 @@ public class NumberComponent extends LowComponent implements LowNumber {
 
 
     @Override
+    protected Color getBackgroundColor() {
+        return new Color(200, 200, 255);
+    }
+
+    @Override
     public void onLeftClick(MouseEvent e) {
         super.onLeftClick(e);
         setNumber(getNumber() + 1.0f);
@@ -35,15 +40,7 @@ public class NumberComponent extends LowComponent implements LowNumber {
     }
 
     @Override
-    public void renderComponent(Graphics2D g) {
-        g.setColor(new Color(200, 200, 255));
-        g.fillRoundRect(
-            settings.loc().x(), settings.loc().y(),
-            settings.size().width(), settings.size().height(),
-            ROUNDING_RADIUS, ROUNDING_RADIUS
-        );
-        g.setColor(Color.BLACK);
-
+    protected void renderComponent(Graphics2D g) {
         String text = "Number: " + getNumber();
         drawStringCentered(g, text);
     }

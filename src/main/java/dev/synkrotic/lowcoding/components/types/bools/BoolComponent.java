@@ -14,6 +14,11 @@ public class BoolComponent extends LowComponent implements LowBoolean {
     }
 
     @Override
+    protected Color getBackgroundColor() {
+        return Color.GREEN;
+    }
+
+    @Override
     public void onLeftClick(MouseEvent e) {
         super.onLeftClick(e);
         setBoolean(!getBoolean());
@@ -27,15 +32,7 @@ public class BoolComponent extends LowComponent implements LowBoolean {
     }
 
     @Override
-    public void renderComponent(Graphics2D g) {
-        g.setColor(Color.GREEN);
-        g.fillRoundRect(
-            settings.loc().x(), settings.loc().y(),
-            settings.size().width(), settings.size().height(),
-            ROUNDING_RADIUS, ROUNDING_RADIUS
-        );
-        g.setColor(Color.BLACK);
-
+    protected void renderComponent(Graphics2D g) {
         String text = "Bool: " + getBoolean();
         drawStringCentered(g, text);
     }
