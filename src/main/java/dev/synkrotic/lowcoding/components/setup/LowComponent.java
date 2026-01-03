@@ -1,19 +1,26 @@
-package dev.synkrotic.lowcoding;
+package dev.synkrotic.lowcoding.components.setup;
 
-import dev.synkrotic.lowcoding.components.types.setup.ComponentSettings;
+import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.geo.Coord;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class LowComponent {
     public static final int ROUNDING_RADIUS = 10;
 
+    private Coord rightHoldPoint = null;
+
     protected final ComponentSettings settings;
     protected final Environment env;
 
-    public Point clickOffset = null;
+    protected final List<LowComponent> leftComponents = new ArrayList<>();
+    protected final List<LowComponent> rightComponents = new ArrayList<>();
+
+    public Coord leftClickOffset = null;
 
 
     public LowComponent(Environment env, ComponentSettings settings) {
@@ -21,35 +28,93 @@ public abstract class LowComponent {
         this.env = env;
     }
 
-    public void moveClick(MouseEvent e) {
-        clickOffset = new Point(
-            e.getX() - settings.loc().x(),
-            e.getY() - settings.loc().y()
-        );
-    }
-    public void moveHold(MouseEvent e) {
-        if (clickOffset != null) {
-            int newX = e.getX() - clickOffset.x;
-            int newY = e.getY() - clickOffset.y;
+    protected void drawStringCentered(Graphics2D g, String text) {
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getHeight();
+        int x = settings.loc().x() + (settings.size().width() - textWidth) / 2;
+        int y = settings.loc().y() + (settings.size().height() - textHeight) / 2 + fm.getAscent();
 
-            settings.setLoc(new Coord(newX, newY));
-            env.repaint();
-        }
-    }
-    public void moveRelease() {
-        clickOffset = null;
-        env.repaint();
+        g.drawString(text, x, y);
     }
 
     public boolean isMouseOver(Point mousePos) {
         return mousePos.x >= settings.loc().x() && mousePos.x <= settings.loc().x() + settings.size().width() &&
-               mousePos.y >= settings.loc().y() && mousePos.y <= settings.loc().y() + settings.size().height();
+            mousePos.y >= settings.loc().y() && mousePos.y <= settings.loc().y() + settings.size().height();
     }
 
     public void setLocation(Coord location) {
         settings.setLoc(location);
     }
 
+
+    public void moveClick(MouseEvent e) {
+        leftClickOffset = new Coord(
+            e.getX() - settings.loc().x(),
+            e.getY() - settings.loc().y()
+        );
+    }
+    public void moveHold(MouseEvent e) {
+        if (leftClickOffset != null) {
+            int newX = e.getX() - leftClickOffset.x();
+            int newY = e.getY() - leftClickOffset.y();
+
+            settings.setLoc(new Coord(newX, newY));
+            env.repaint();
+        }
+    }
+    public void moveRelease() {
+        leftClickOffset = null;
+        env.repaint();
+    }
+
+    public void lineHold(MouseEvent e) {
+        rightHoldPoint = new Coord(e.getX(), e.getY());
+        env.repaint();
+    }
+    public void lineRelease(MouseEvent e) {
+        for (LowComponent component : env.getComponentsList()) {
+            if (component != this && component.isMouseOver(new Point(e.getX(), e.getY()))) {
+                if (rightComponents.contains(component)) {
+                    rightComponents.remove(component);
+                    component.leftComponents.remove(this);
+                    break;
+                }
+
+                rightComponents.add(component);
+                component.leftComponents.add(this);
+                break;
+            }
+        }
+        rightHoldPoint = null;
+        env.repaint();
+    }
+
+
+    public void renderLines(Graphics2D g) {
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(3));
+
+        // Draw line if holding
+        if (rightHoldPoint != null) {
+            g.drawLine(
+                settings.loc().x() + settings.size().width() / 2,
+                settings.loc().y() + settings.size().height() / 2,
+                rightHoldPoint.x(),
+                rightHoldPoint.y()
+            );
+        }
+
+        // Draw lines to connected components
+        for (LowComponent comp : leftComponents) {
+            g.drawLine(
+                settings.loc().x() + settings.size().width() / 2,
+                settings.loc().y() + settings.size().height() / 2,
+                comp.settings.loc().x() + comp.settings.size().width() / 2,
+                comp.settings.loc().y() + comp.settings.size().height() / 2
+            );
+        }
+    }
 
     // Abstracts
     public void onLeftClick(MouseEvent e) { }
@@ -59,5 +124,5 @@ public abstract class LowComponent {
     public void onRightHold(MouseEvent e) { }
     public void onRightRelease(MouseEvent e) { }
 
-    public abstract void render(Graphics2D g);
+    public abstract void renderComponent(Graphics2D g);
 }

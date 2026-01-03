@@ -1,4 +1,3 @@
 package dev.synkrotic.lowcoding.geo;
 
-public class Size {
-}
+public record Size(int width, int height) { }

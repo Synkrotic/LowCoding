@@ -1,6 +1,6 @@
-package dev.synkrotic.lowcoding.components.types;
+package dev.synkrotic.lowcoding.components.types.bools;
 
-import dev.synkrotic.lowcoding.components.types.setup.ComponentSettings;
+import dev.synkrotic.lowcoding.components.setup.ComponentSettings;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
 

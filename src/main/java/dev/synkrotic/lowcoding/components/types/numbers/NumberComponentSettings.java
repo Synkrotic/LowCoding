@@ -1,22 +1,22 @@
-package dev.synkrotic.lowcoding.components.types.ints;
+package dev.synkrotic.lowcoding.components.types.numbers;
 
 import dev.synkrotic.lowcoding.components.setup.ComponentSettings;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
 
-public class IntegerComponentSettings extends ComponentSettings {
+public class NumberComponentSettings extends ComponentSettings {
     public float number;
 
-    public IntegerComponentSettings(Size size, Coord loc, boolean value) {
+    public NumberComponentSettings(Size size, Coord loc, float value) {
         super(size, loc);
-        this.value = value;
+        this.number = value;
     }
 
 
-    public boolean getInt() {
-        return value;
+    public float getNumber() {
+        return number;
     }
-    public void setBool(boolean value) {
-        this.value = value;
+    public void setNumber(float value) {
+        this.number = value;
     }
 }

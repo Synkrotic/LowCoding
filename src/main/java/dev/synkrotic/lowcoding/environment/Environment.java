@@ -1,6 +1,6 @@
-package dev.synkrotic.lowcoding;
+package dev.synkrotic.lowcoding.environment;
 
-import dev.synkrotic.lowcoding.components.types.EnvironmentMouseAdapter;
+import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.menu.Menu;
 
 import javax.imageio.ImageIO;
@@ -33,6 +33,7 @@ public class Environment extends JPanel {
         setLayout(new BorderLayout());
 
         JLabel label = new JLabel("Welcome to LowCoding Environment!");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(label, BorderLayout.NORTH);
 
         Menu menu = new Menu(this);
@@ -41,6 +42,7 @@ public class Environment extends JPanel {
         EnvironmentMouseAdapter mouseAdapter = new EnvironmentMouseAdapter(this);
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
+        this.addMouseWheelListener(mouseAdapter);
     }
 
 
@@ -58,8 +60,15 @@ public class Environment extends JPanel {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
+
+        Graphics2D g2d = (Graphics2D) g;
+        // First render lines so they appear beneath components
         for (LowComponent component : components) {
-            component.render((Graphics2D) g);
+            component.renderLines(g2d);
+        }
+
+        for (LowComponent component : components) {
+            component.renderComponent(g2d);
         }
     }
 }

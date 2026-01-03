@@ -7,17 +7,17 @@ import dev.synkrotic.lowcoding.types.LowNumber;
 
 import java.awt.*;
 
-public class AdditionComponent extends ArithmeticComponent {
-    public AdditionComponent(Environment env) {
+public class MultiplyComponent extends ArithmeticComponent {
+    public MultiplyComponent(Environment env) {
         super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
     }
 
     @Override
     public float getNumber() {
-        float total = 0f;
+        float total = 1f;
         for (LowComponent input : leftComponents) {
             if (input instanceof LowNumber lInput) {
-                total += lInput.getNumber();
+                total *= lInput.getNumber();
             }
         }
         return total;
@@ -25,11 +25,11 @@ public class AdditionComponent extends ArithmeticComponent {
 
     @Override
     protected Color getBackgroundColor() {
-        return new Color(25, 150, 50);
+        return new Color(215, 181, 52);
     }
 
     @Override
     public String toString() {
-        return "Sum";
+        return "Multiply";
     }
 }

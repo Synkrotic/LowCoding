@@ -1,14 +1,13 @@
-package dev.synkrotic.lowcoding.components.operations.addition;
+package dev.synkrotic.lowcoding.components.arithmetics;
 
 import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
-import dev.synkrotic.lowcoding.components.types.numbers.NumberComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowNumber;
 
 import java.awt.*;
 
-public class AdditionComponent extends LowComponent implements LowNumber {
+public class AdditionComponent extends ArithmeticComponent {
     public AdditionComponent(Environment env) {
         super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
     }
@@ -25,15 +24,12 @@ public class AdditionComponent extends LowComponent implements LowNumber {
     }
 
     @Override
-    public void renderComponent(Graphics2D g) {
-        g.setColor(new Color(255, 255, 200));
-        g.fillRoundRect(
-            settings.loc().x(), settings.loc().y(),
-            settings.size().width(), settings.size().height(),
-            ROUNDING_RADIUS, ROUNDING_RADIUS
-        );
-        g.setColor(Color.BLACK);
+    protected Color getBackgroundColor() {
+        return new Color(25, 150, 50);
+    }
 
-        drawStringCentered(g, String.format("Sum: %f", getNumber()));
+    @Override
+    public String toString() {
+        return "Sum";
     }
 }

@@ -1,4 +1,4 @@
 package dev.synkrotic.lowcoding.geo;
 
-public class Coord {
+public record Coord(int x, int y) {
 }

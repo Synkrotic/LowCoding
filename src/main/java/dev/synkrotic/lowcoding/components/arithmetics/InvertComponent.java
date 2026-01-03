@@ -7,8 +7,8 @@ import dev.synkrotic.lowcoding.types.LowNumber;
 
 import java.awt.*;
 
-public class SubtractionComponent extends ArithmeticComponent {
-    public SubtractionComponent(Environment env) {
+public class InvertComponent extends ArithmeticComponent {
+    public InvertComponent(Environment env) {
         super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
     }
 
@@ -30,6 +30,6 @@ public class SubtractionComponent extends ArithmeticComponent {
 
     @Override
     public String toString() {
-        return "";
+        return "Invert";
     }
 }

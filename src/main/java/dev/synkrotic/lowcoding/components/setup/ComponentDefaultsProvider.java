@@ -1,6 +1,7 @@
-package dev.synkrotic.lowcoding.components.types.setup;
+package dev.synkrotic.lowcoding.components.setup;
 
-import dev.synkrotic.lowcoding.components.types.BoolComponentSettings;
+import dev.synkrotic.lowcoding.components.types.bools.BoolComponentSettings;
+import dev.synkrotic.lowcoding.components.types.numbers.NumberComponentSettings;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
 
@@ -10,6 +11,14 @@ public class ComponentDefaultsProvider {
             new Size(100, 50),
             new Coord(50, 50),
             false
+        );
+    }
+
+    public static NumberComponentSettings NUMBER_DEFAULTS() {
+        return new NumberComponentSettings(
+            new Size(100, 50),
+            new Coord(50, 50),
+            0.0f
         );
     }
 

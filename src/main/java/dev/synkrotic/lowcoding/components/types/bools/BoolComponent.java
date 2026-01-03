@@ -1,13 +1,14 @@
-package dev.synkrotic.lowcoding.components.types;
+package dev.synkrotic.lowcoding.components.types.bools;
 
-import dev.synkrotic.lowcoding.Environment;
-import dev.synkrotic.lowcoding.LowComponent;
-import dev.synkrotic.lowcoding.components.types.setup.ComponentDefaultsProvider;
+import dev.synkrotic.lowcoding.environment.Environment;
+import dev.synkrotic.lowcoding.components.setup.LowComponent;
+import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
+import dev.synkrotic.lowcoding.types.LowBoolean;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class BoolComponent extends LowComponent {
+public class BoolComponent extends LowComponent implements LowBoolean {
     public BoolComponent(Environment env) {
         super(env, ComponentDefaultsProvider.BOOL_DEFAULTS());
     }
@@ -15,18 +16,18 @@ public class BoolComponent extends LowComponent {
     @Override
     public void onLeftClick(MouseEvent e) {
         super.onLeftClick(e);
-        setValue(!getValue());
+        setBoolean(!getBoolean());
     }
 
-    public boolean getValue () {
+    public boolean getBoolean() {
         return ((BoolComponentSettings) settings).getBool();
     }
-    public void setValue (boolean value) {
+    public void setBoolean(boolean value) {
         ((BoolComponentSettings) settings).setBool(value);
     }
 
     @Override
-    public void render(Graphics2D g) {
+    public void renderComponent(Graphics2D g) {
         g.setColor(Color.GREEN);
         g.fillRoundRect(
             settings.loc().x(), settings.loc().y(),
@@ -35,13 +36,7 @@ public class BoolComponent extends LowComponent {
         );
         g.setColor(Color.BLACK);
 
-        String text = "Bool: " + getValue();
-        FontMetrics fm = g.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        int textHeight = fm.getHeight();
-        int x = settings.loc().x() + (settings.size().width() - textWidth) / 2;
-        int y = settings.loc().y() + (settings.size().height() - textHeight) / 2 + fm.getAscent();
-
-        g.drawString(text, x, y);
+        String text = "Bool: " + getBoolean();
+        drawStringCentered(g, text);
     }
 }
