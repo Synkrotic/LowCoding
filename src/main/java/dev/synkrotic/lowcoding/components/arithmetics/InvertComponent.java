@@ -14,7 +14,7 @@ public class InvertComponent extends ArithmeticComponent {
     @Override
     public float getNumber() {
         float total = 0f;
-        for (LowComponent input : leftComponents) {
+        for (LowComponent input : inputs) {
             if (input instanceof LowNumber lInput) {
                 total -= lInput.getNumber();
             }

@@ -107,10 +107,8 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             activeComponent.moveHold(translatedE);
-            activeComponent.onLeftHold(translatedE);
         } else if (SwingUtilities.isRightMouseButton(e)) {
             activeComponent.lineHold(translatedE);
-            activeComponent.onRightHold(translatedE);
         }
     }
 
@@ -129,18 +127,19 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
             int DRAG_THRESHOLD = 5;
             if (distance < DRAG_THRESHOLD) {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.onRightClick(translatedE);
                     activeComponent.lineRelease(translatedE);
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.onLeftClick(translatedE);
+                    if (e.getClickCount() == 2) {
+                        activeComponent.onDoubleLeftClick(translatedE);
+                    } else {
+                        activeComponent.onLeftClick(translatedE);
+                    }
                     activeComponent.moveRelease();
                 }
             } else {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.onRightRelease(translatedE);
                     activeComponent.lineRelease(translatedE);
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.onLeftRelease(translatedE);
                     activeComponent.moveRelease();
                 }
             }

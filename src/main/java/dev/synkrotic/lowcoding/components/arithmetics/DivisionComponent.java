@@ -14,7 +14,7 @@ public class DivisionComponent extends ArithmeticComponent {
     @Override
     public float getNumber() {
         float total = 0f;
-        for (LowComponent input : leftComponents) {
+        for (LowComponent input : inputs) {
             if (input instanceof LowNumber lInput) {
                 if (total == 0f) {
                     total = lInput.getNumber();

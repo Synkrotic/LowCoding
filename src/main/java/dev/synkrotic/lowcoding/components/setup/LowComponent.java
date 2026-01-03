@@ -17,8 +17,7 @@ public abstract class LowComponent {
     protected final ComponentSettings settings;
     protected final Environment env;
 
-    protected final List<LowComponent> leftComponents = new ArrayList<>();
-    protected final List<LowComponent> rightComponents = new ArrayList<>();
+    protected final List<LowComponent> inputs = new ArrayList<>();
 
     public Coord leftClickOffset = null;
 
@@ -81,14 +80,12 @@ public abstract class LowComponent {
     public void lineRelease(MouseEvent e) {
         for (LowComponent component : env.getComponentsList()) {
             if (component != this && component.isMouseOver(new Point(e.getX(), e.getY()))) {
-                if (rightComponents.contains(component)) {
-                    rightComponents.remove(component);
-                    component.leftComponents.remove(this);
+                if (component.inputs.contains(this)) {
+                    component.inputs.remove(this);
                     break;
                 }
 
-                rightComponents.add(component);
-                component.leftComponents.add(this);
+                component.inputs.add(this);
                 break;
             }
         }
@@ -112,7 +109,7 @@ public abstract class LowComponent {
         }
 
         // Draw lines to connected components
-        for (LowComponent comp : leftComponents) {
+        for (LowComponent comp : inputs) {
             g.drawLine(
                 settings.loc().x() + settings.size().width() / 2,
                 settings.loc().y() + settings.size().height() / 2,
@@ -136,24 +133,8 @@ public abstract class LowComponent {
     }
 
     // Abstracts
-    public void onLeftClick(MouseEvent e) {
-        System.out.println(e);
-    }
-    public void onLeftHold(MouseEvent e) {
-        System.out.println(e);
-    }
-    public void onLeftRelease(MouseEvent e) {
-        System.out.println(e);
-    }
-    public void onRightClick(MouseEvent e) {
-        System.out.println(e);
-    }
-    public void onRightHold(MouseEvent e) {
-        System.out.println(e);
-    }
-    public void onRightRelease(MouseEvent e) {
-        System.out.println(e);
-    }
+    public void onLeftClick(MouseEvent e) { }
+    public void onDoubleLeftClick(MouseEvent e) { }
 
     protected abstract Color getBackgroundColor();
 

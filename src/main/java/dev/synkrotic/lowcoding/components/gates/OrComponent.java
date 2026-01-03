@@ -18,7 +18,7 @@ public class OrComponent extends GateComponent {
 
     @Override
     public boolean getBoolean() {
-        for (LowComponent input : leftComponents) {
+        for (LowComponent input : inputs) {
             if (input instanceof LowBoolean lInput) {
                 if (lInput.getBoolean()) {
                     return true;

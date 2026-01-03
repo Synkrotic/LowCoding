@@ -5,6 +5,7 @@ import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
 import dev.synkrotic.lowcoding.types.LowNumber;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -31,12 +32,16 @@ public class NumberComponent extends LowComponent implements LowNumber {
     @Override
     public void onLeftClick(MouseEvent e) {
         super.onLeftClick(e);
-        setNumber(getNumber() + 1.0f);
-    }
-    @Override
-    public void onRightClick(MouseEvent e) {
-        super.onRightClick(e);
-        setNumber(getNumber() - 1.0f);
+
+        SpinnerNumberModel model = new SpinnerNumberModel(0f, -Float.MAX_VALUE, Float.MAX_VALUE, 1f);
+        JSpinner spinner = new JSpinner(model);
+
+        int option = JOptionPane.showConfirmDialog(null, spinner, "Select a Number", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            float selectedNumber = ((Double) spinner.getValue()).floatValue();
+            setNumber(selectedNumber);
+        }
     }
 
     @Override

@@ -15,7 +15,7 @@ public class BoolComponent extends LowComponent implements LowBoolean {
 
     @Override
     protected Color getBackgroundColor() {
-        return Color.GREEN;
+        return getBoolean() ? Color.GREEN : Color.RED;
     }
 
     @Override
