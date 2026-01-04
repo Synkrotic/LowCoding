@@ -3,7 +3,9 @@ package dev.synkrotic.lowcoding.components.setup;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
 
-public class ComponentSettings {
+import java.io.Serializable;
+
+public class ComponentSettings implements Serializable {
     private Size size;
     private Coord loc;
 

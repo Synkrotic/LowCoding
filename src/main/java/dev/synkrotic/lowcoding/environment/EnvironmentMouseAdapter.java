@@ -64,6 +64,7 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
 
     @Override
     public void mousePressed(MouseEvent e) {
+        env.requestFocusInWindow();
         if (SwingUtilities.isMiddleMouseButton(e)) {
             isPanning = true;
             pressPoint = e.getPoint();
@@ -119,33 +120,37 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
             return;
         }
 
-        if (activeComponent != null) {
-            double distance = pressPoint.distance(e.getPoint());
-            Point worldPt = getEventPoint(e);
-            MouseEvent translatedE = translateEvent(e, worldPt);
-
-            int DRAG_THRESHOLD = 5;
-            if (distance < DRAG_THRESHOLD) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.lineRelease(translatedE);
-                } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    if (e.getClickCount() == 2) {
-                        activeComponent.onDoubleLeftClick();
-                    } else {
-                        activeComponent.onLeftClick(translatedE);
-                    }
-                    activeComponent.moveRelease();
-                }
-            } else {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    activeComponent.lineRelease(translatedE);
-                } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    activeComponent.moveRelease();
-                }
-            }
-
-            activeComponent = null;
+        if (activeComponent == null) {
+            env.deselectComponent();
+            return;
         }
+
+        double distance = pressPoint.distance(e.getPoint());
+        Point worldPt = getEventPoint(e);
+        MouseEvent translatedE = translateEvent(e, worldPt);
+
+        int DRAG_THRESHOLD = 5;
+        if (distance < DRAG_THRESHOLD) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                activeComponent.lineRelease(translatedE);
+            } else if (SwingUtilities.isLeftMouseButton(e)) {
+                if (e.getClickCount() == 2) {
+                    activeComponent.onDoubleLeftClick(translatedE);
+                } else {
+                    // On Single click
+                    env.selectComponent(activeComponent);
+                }
+                activeComponent.moveRelease();
+            }
+        } else {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                activeComponent.lineRelease(translatedE);
+            } else if (SwingUtilities.isLeftMouseButton(e)) {
+                activeComponent.moveRelease();
+            }
+        }
+
+        activeComponent = null;
     }
 
     private Point getEventPoint(MouseEvent e) {

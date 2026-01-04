@@ -22,8 +22,8 @@ public class NumberComponent extends DataTypeComponent implements LowNumber {
     }
 
     @Override
-    public void onLeftClick(MouseEvent e) {
-        super.onLeftClick(e);
+    public void onDoubleLeftClick(MouseEvent e) {
+        super.onDoubleLeftClick(e);
 
         SpinnerNumberModel model = new SpinnerNumberModel(0f, -Float.MAX_VALUE, Float.MAX_VALUE, 1f);
         JSpinner spinner = new JSpinner(model);

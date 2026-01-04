@@ -21,8 +21,8 @@ public class BoolComponent extends DataTypeComponent implements LowBoolean {
     }
 
     @Override
-    public void onLeftClick(MouseEvent e) {
-        super.onLeftClick(e);
+    public void onDoubleLeftClick(MouseEvent e) {
+        super.onDoubleLeftClick(e);
         setBoolean(!getBoolean());
     }
 

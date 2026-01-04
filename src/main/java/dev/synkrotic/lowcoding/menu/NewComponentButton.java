@@ -5,6 +5,7 @@ import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.geo.Coord;
 
 import javax.swing.*;
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 public class NewComponentButton extends JButton {
@@ -16,6 +17,7 @@ public class NewComponentButton extends JButton {
         this.componentClass = componentClass;
 
         setText(label);
+        setAlignmentX(CENTER_ALIGNMENT);
         addActionListener(_ -> newInstance());
     }
 
@@ -36,5 +38,10 @@ public class NewComponentButton extends JButton {
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(150, 50);
     }
 }

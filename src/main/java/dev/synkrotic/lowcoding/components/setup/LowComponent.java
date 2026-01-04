@@ -6,17 +6,18 @@ import dev.synkrotic.lowcoding.geo.Size;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class LowComponent {
+public abstract class LowComponent implements Serializable {
     public static final int ROUNDING_RADIUS = 10;
 
     private Coord rightHoldPoint = null;
 
     protected final ComponentSettings settings;
-    protected final Environment env;
+    protected Environment env;
 
     protected final List<LowComponent> inputs = new ArrayList<>();
 
@@ -25,6 +26,10 @@ public abstract class LowComponent {
 
     public LowComponent(Environment env, ComponentSettings settings) {
         this.settings = settings;
+        this.env = env;
+    }
+
+    public void setEnvironment(Environment env) {
         this.env = env;
     }
 
@@ -104,6 +109,7 @@ public abstract class LowComponent {
         inputs.add(comp);
     }
 
+
     public void renderLines(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(3));
@@ -120,6 +126,10 @@ public abstract class LowComponent {
 
         // Draw lines to connected components
         for (LowComponent comp : inputs) {
+            if (!env.getComponentsList().contains(comp)) {
+                inputs.remove(comp);
+                continue;
+            }
             g.drawLine(
                 settings.loc().x() + settings.size().width() / 2,
                 settings.loc().y() + settings.size().height() / 2,
@@ -128,7 +138,6 @@ public abstract class LowComponent {
             );
         }
     }
-
     public void render(Graphics2D g) {
         g.setColor(getBackgroundColor());
         g.fillRoundRect(
@@ -141,10 +150,22 @@ public abstract class LowComponent {
         );
         renderComponent(g);
     }
+    public void renderOutline(Graphics2D g) {
+        g.setColor(Color.BLUE);
+        g.setStroke(new BasicStroke(3));
+        g.drawRoundRect(
+            settings.loc().x(),
+            settings.loc().y(),
+            settings.size().width(),
+            settings.size().height(),
+            ROUNDING_RADIUS,
+            ROUNDING_RADIUS
+        );
+    }
+
 
     // Abstracts
-    public void onLeftClick(MouseEvent e) { }
-    public void onDoubleLeftClick() { }
+    public void onDoubleLeftClick(MouseEvent e) { }
 
     protected abstract Color getBackgroundColor();
     protected abstract void renderComponent(Graphics2D g);
