@@ -1,7 +1,7 @@
 package dev.synkrotic.lowcoding.components.gates;
 
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.types.LowBoolean;
+import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 
@@ -21,10 +21,10 @@ public class XorComponent extends GateComponent {
     }
 
     @Override
-    public boolean getBoolean() {
+    public Object getValue() {
         return inputs.stream()
-                .map(input -> ((LowBoolean) input).getBoolean())
-                .filter(b -> b)
+                .map(LowDataType::getValue)
+                .filter(b -> (boolean) b)
                 .count() == 1;
     }
 }

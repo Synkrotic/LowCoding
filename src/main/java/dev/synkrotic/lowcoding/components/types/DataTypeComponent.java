@@ -1,14 +1,15 @@
 package dev.synkrotic.lowcoding.components.types;
 
-import dev.synkrotic.lowcoding.components.setup.ComponentSettings;
+import dev.synkrotic.lowcoding.components.setup.ComponentDetails;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
+import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 
-public abstract class DataTypeComponent extends LowComponent {
-    public DataTypeComponent(Environment env, ComponentSettings settings) {
-        super(env, settings);
+public abstract class DataTypeComponent extends LowComponent implements LowDataType {
+    public DataTypeComponent(Environment env, ComponentDetails componentDetails) {
+        super(env, componentDetails);
     }
 
     @Override

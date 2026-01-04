@@ -3,7 +3,9 @@ package dev.synkrotic.lowcoding.components.conditions.predicates;
 import dev.synkrotic.lowcoding.components.conditions.ConditionComponent;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
+import dev.synkrotic.lowcoding.types.LowDataType;
 import dev.synkrotic.lowcoding.types.LowNumber;
+import dev.synkrotic.lowcoding.types.LowType;
 
 public abstract class PredicateComponent extends ConditionComponent {
     public PredicateComponent(Environment env) {
@@ -12,7 +14,9 @@ public abstract class PredicateComponent extends ConditionComponent {
 
     @Override
     public boolean canBeBound(LowComponent component) {
-        return inputs.size() < 2 && component instanceof LowNumber;
+        return inputs.size() < 2
+            && (component instanceof LowDataType ldt)
+            && ldt.getType().equals(LowType.NUMBER);
     }
 
     protected boolean validateInputs() {

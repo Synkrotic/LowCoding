@@ -22,7 +22,7 @@ public class EqualsConditionComponent extends ConditionComponent {
     }
 
     @Override
-    public boolean getBoolean() {
+    public Object getValue() {
         if (inputs.size() < 2 || inputs.get(0) == null || inputs.get(1) == null) {
             return false;
         }

@@ -1,6 +1,7 @@
 package dev.synkrotic.lowcoding.environment;
 
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
+import dev.synkrotic.lowcoding.components.types.vars.VariableComponent;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.menu.Menu;
 
@@ -30,6 +31,7 @@ public class Environment extends JPanel {
     }
     private static final File saveDir = new File("saves");
 
+    private final List<VariableComponent> variables = new ArrayList<>();
     private final List<LowComponent> components = new ArrayList<>();
     private static LowComponent selectedComponent = null;
 
@@ -65,6 +67,9 @@ public class Environment extends JPanel {
 
     public void addComponent(LowComponent component) {
         components.add(component);
+        if (component instanceof VariableComponent) {
+            variables.add((VariableComponent) component);
+        }
         repaint();
     }
     public void removeComponent(LowComponent component) { // Essentially deleting component
@@ -86,6 +91,14 @@ public class Environment extends JPanel {
         selectedComponent = null;
         repaint();
     }
+    public Object getVariableValueByName(String name) {
+        for (VariableComponent variable : variables) {
+            if (variable.getName().equals(name)) {
+                return variable.getValue();
+            }
+        }
+        return null;
+    }
     public LowComponent getSelectedComponent() {
         return selectedComponent;
     }
@@ -98,7 +111,9 @@ public class Environment extends JPanel {
 
     public void saveEnvironment() {
         if (!saveDir.exists()) {
-            saveDir.mkdir();
+            if (saveDir.mkdir()) {
+                System.out.println("Created save directory at: " + saveDir.getAbsolutePath());
+            }
         }
 
         LocalDateTime now = LocalDateTime.now();

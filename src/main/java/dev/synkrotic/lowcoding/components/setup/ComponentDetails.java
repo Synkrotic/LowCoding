@@ -5,11 +5,11 @@ import dev.synkrotic.lowcoding.geo.Size;
 
 import java.io.Serializable;
 
-public class ComponentSettings implements Serializable {
+public class ComponentDetails implements Serializable {
     private Size size;
     private Coord loc;
 
-    public ComponentSettings(Size size, Coord loc) {
+    public ComponentDetails(Size size, Coord loc) {
         this.size = size;
         this.loc = loc;
     }

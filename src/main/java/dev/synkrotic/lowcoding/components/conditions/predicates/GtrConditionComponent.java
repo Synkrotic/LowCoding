@@ -21,13 +21,13 @@ public class GtrConditionComponent extends PredicateComponent {
     }
 
     @Override
-    public boolean getBoolean() {
+    public Object getValue() {
         if (validateInputs()) {
             return false;
         }
 
         LowNumber left = (LowNumber) inputs.getFirst();
         LowNumber right = (LowNumber) inputs.getLast();
-        return left.getNumber() > right.getNumber();
+        return (Float) left.getValue() > (Float) right.getValue();
     }
 }

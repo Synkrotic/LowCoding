@@ -1,5 +1,7 @@
 package dev.synkrotic.lowcoding.types;
 
-public interface LowBoolean {
-    boolean getBoolean();
+public interface LowBoolean extends LowDataType {
+    default LowType getType() {
+        return LowType.BOOLEAN;
+    }
 }

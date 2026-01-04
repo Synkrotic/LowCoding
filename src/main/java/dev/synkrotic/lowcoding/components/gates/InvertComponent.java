@@ -1,23 +1,22 @@
 package dev.synkrotic.lowcoding.components.gates;
 
-import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
+import dev.synkrotic.lowcoding.components.setup.ComponentDetailsProvider;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowBoolean;
+import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 
 public class InvertComponent extends LowComponent implements LowBoolean {
     public InvertComponent(Environment env) {
-        super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
+        super(env, ComponentDetailsProvider.COMPONENT_DEFAULTS());
     }
 
     @Override
-    public boolean getBoolean() {
-        for (LowComponent input : inputs) {
-            if (input instanceof LowBoolean lInput) {
-                return !lInput.getBoolean();
-            }
+    public Object getValue() {
+        for (LowDataType input : inputs) {
+            return !(Boolean) input.getValue();
         }
         return false;
     }
@@ -29,7 +28,7 @@ public class InvertComponent extends LowComponent implements LowBoolean {
 
     @Override
     protected void renderComponent(Graphics2D g) {
-        drawStringCentered(g, String.format("%s: %b", this, getBoolean()));
+        drawStringCentered(g, String.format("%s: %b", this, getValue()));
     }
 
     @Override

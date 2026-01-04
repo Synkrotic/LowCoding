@@ -1,8 +1,8 @@
 package dev.synkrotic.lowcoding.components.arithmetics;
 
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.types.LowNumber;
+import dev.synkrotic.lowcoding.types.LowDataType;
+import dev.synkrotic.lowcoding.types.LowType;
 
 import java.awt.*;
 
@@ -12,14 +12,15 @@ public class DivisionComponent extends ArithmeticComponent {
     }
 
     @Override
-    public float getNumber() {
+    public Object getValue() {
         float total = 0f;
-        for (LowComponent input : inputs) {
-            if (input instanceof LowNumber lInput) {
+        for (LowDataType input : inputs) {
+            if (input.getType().equals(LowType.NUMBER)) {
+                float value = (Float) input.getValue();
                 if (total == 0f) {
-                    total = lInput.getNumber();
-                } else if (lInput.getNumber() != 0f) {
-                    total /= lInput.getNumber();
+                    total = value;
+                } else if (value != 0f) {
+                    total /= value;
                 }
             }
         }

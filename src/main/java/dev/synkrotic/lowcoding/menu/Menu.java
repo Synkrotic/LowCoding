@@ -13,17 +13,17 @@ import dev.synkrotic.lowcoding.components.gates.AndComponent;
 import dev.synkrotic.lowcoding.components.gates.InvertComponent;
 import dev.synkrotic.lowcoding.components.gates.OrComponent;
 import dev.synkrotic.lowcoding.components.gates.XorComponent;
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.numbers.NumberComponent;
+import dev.synkrotic.lowcoding.components.types.vars.VariableComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.components.types.bools.BoolComponent;
 
 import javax.swing.*;
-import java.io.Serializable;
 import java.util.List;
 
 public class Menu extends JPanel {
     private final List<MenuEntry> inputs = List.of(
+        new MenuEntry("Variable", VariableComponent.class),
         new MenuEntry("Boolean", BoolComponent.class),
         new MenuEntry("Number", NumberComponent.class)
     );
@@ -114,23 +114,5 @@ public class Menu extends JPanel {
         }
 
         add(Box.createVerticalStrut(20));
-    }
-}
-
-class MenuEntry implements Serializable {
-    String name;
-    Class<? extends LowComponent> componentClass;
-
-    public MenuEntry(String name, Class<? extends LowComponent> componentClass) {
-        this.name = name;
-        this.componentClass = componentClass;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Class<? extends LowComponent> getComponentClass() {
-        return componentClass;
     }
 }

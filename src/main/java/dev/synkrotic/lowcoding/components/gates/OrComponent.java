@@ -1,8 +1,8 @@
 package dev.synkrotic.lowcoding.components.gates;
 
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.types.LowBoolean;
+import dev.synkrotic.lowcoding.types.LowDataType;
+import dev.synkrotic.lowcoding.types.LowType;
 
 import java.awt.*;
 
@@ -17,12 +17,11 @@ public class OrComponent extends GateComponent {
     }
 
     @Override
-    public boolean getBoolean() {
-        for (LowComponent input : inputs) {
-            if (input instanceof LowBoolean lInput) {
-                if (lInput.getBoolean()) {
-                    return true;
-                }
+    public Object getValue() {
+        for (LowDataType input : inputs) {
+            if (input.getType().equals(LowType.BOOLEAN)
+                    && (Boolean) input.getValue()) {
+                return true;
             }
         }
         return false;
