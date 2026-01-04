@@ -7,10 +7,24 @@ import dev.synkrotic.lowcoding.types.LowBoolean;
 
 import java.awt.*;
 
-public abstract class GateComponent extends LowComponent implements LowBoolean {
-
-    public GateComponent(Environment env) {
+public class InvertComponent extends LowComponent implements LowBoolean {
+    public InvertComponent(Environment env) {
         super(env, ComponentDefaultsProvider.COMPONENT_DEFAULTS());
+    }
+
+    @Override
+    public boolean getBoolean() {
+        for (LowComponent input : inputs) {
+            if (input instanceof LowBoolean lInput) {
+                return !lInput.getBoolean();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected Color getBackgroundColor() {
+        return new Color(255, 50, 50);
     }
 
     @Override
@@ -20,9 +34,11 @@ public abstract class GateComponent extends LowComponent implements LowBoolean {
 
     @Override
     protected boolean canBeBound(LowComponent component) {
-        return component instanceof LowBoolean && inputs.size() < 2;
+        return component instanceof LowBoolean && inputs.isEmpty();
     }
 
     @Override
-    public abstract String toString();
+    public String toString() {
+        return "Invert";
+    }
 }

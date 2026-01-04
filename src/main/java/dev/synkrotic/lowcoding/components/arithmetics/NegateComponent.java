@@ -6,8 +6,8 @@ import dev.synkrotic.lowcoding.types.LowNumber;
 
 import java.awt.*;
 
-public class InvertComponent extends ArithmeticComponent {
-    public InvertComponent(Environment env) {
+public class NegateComponent extends ArithmeticComponent {
+    public NegateComponent(Environment env) {
         super(env);
     }
 
@@ -28,7 +28,12 @@ public class InvertComponent extends ArithmeticComponent {
     }
 
     @Override
+    protected boolean canBeBound(LowComponent component) {
+        return component instanceof LowNumber && inputs.isEmpty();
+    }
+
+    @Override
     public String toString() {
-        return "Invert";
+        return "Negation";
     }
 }

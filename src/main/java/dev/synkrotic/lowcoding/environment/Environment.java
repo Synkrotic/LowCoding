@@ -1,6 +1,7 @@
 package dev.synkrotic.lowcoding.environment;
 
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
+import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.menu.Menu;
 
 import javax.imageio.ImageIO;
@@ -59,8 +60,6 @@ public class Environment extends JPanel {
         return components;
     }
 
-
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -83,5 +82,11 @@ public class Environment extends JPanel {
         // Reset g2d for menu rendering
         g2d.scale(1 / scale, 1 / scale);
         g2d.translate(-offsetX, -offsetY);
+    }
+
+    public static Coord toWorldCoordinates(Coord screenPoint) {
+        int worldX = (int) ((screenPoint.x() - offsetX) / scale);
+        int worldY = (int) ((screenPoint.y() - offsetY) / scale);
+        return new Coord(worldX, worldY);
     }
 }

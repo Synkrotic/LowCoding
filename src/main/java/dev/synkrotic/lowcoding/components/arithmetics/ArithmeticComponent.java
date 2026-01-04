@@ -18,5 +18,10 @@ public abstract class ArithmeticComponent extends LowComponent implements LowNum
     }
 
     @Override
+    protected boolean canBeBound(LowComponent component) {
+        return component instanceof LowNumber;
+    }
+
+    @Override
     public abstract String toString();
 }

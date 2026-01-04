@@ -1,5 +1,6 @@
 package dev.synkrotic.lowcoding.components.types.numbers;
 
+import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.setup.ComponentDefaultsProvider;
@@ -9,18 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class NumberComponent extends LowComponent implements LowNumber {
+public class NumberComponent extends DataTypeComponent implements LowNumber {
     public NumberComponent(Environment env) {
         super(env, ComponentDefaultsProvider.NUMBER_DEFAULTS());
-    }
-
-    @Override
-    public float getNumber() {
-        return ((NumberComponentSettings) settings).getNumber();
-    }
-    public void setNumber(float value) {
-        ((NumberComponentSettings) settings).setNumber(value);
-        env.repaint();
     }
 
 
@@ -45,8 +37,27 @@ public class NumberComponent extends LowComponent implements LowNumber {
     }
 
     @Override
-    protected void renderComponent(Graphics2D g) {
-        String text = "Number: " + getNumber();
-        drawStringCentered(g, text);
+    public String toString() {
+        return "Number: " + getNumber();
+    }
+
+    @Override
+    public boolean isEqualTo(LowComponent other) {
+        if (other == this) return true;
+
+        if (other instanceof LowNumber otherNum) {
+            return this.getNumber() == otherNum.getNumber();
+        }
+
+        return false;
+    }
+
+    @Override
+    public float getNumber() {
+        return ((NumberComponentSettings) settings).getNumber();
+    }
+    public void setNumber(float value) {
+        ((NumberComponentSettings) settings).setNumber(value);
+        env.repaint();
     }
 }

@@ -2,6 +2,7 @@ package dev.synkrotic.lowcoding.components.setup;
 
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.geo.Coord;
+import dev.synkrotic.lowcoding.geo.Size;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -48,7 +49,9 @@ public abstract class LowComponent {
     public void setLocation(Coord location) {
         settings.setLoc(location);
     }
-
+    public Size getSize() {
+        return settings.size();
+    }
 
     public void moveClick(MouseEvent e) {
         leftClickOffset = new Coord(
@@ -80,12 +83,7 @@ public abstract class LowComponent {
     public void lineRelease(MouseEvent e) {
         for (LowComponent component : env.getComponentsList()) {
             if (component != this && component.isMouseOver(new Point(e.getX(), e.getY()))) {
-                if (component.inputs.contains(this)) {
-                    component.inputs.remove(this);
-                    break;
-                }
-
-                component.inputs.add(this);
+                component.bindInput(this);
                 break;
             }
         }
@@ -93,6 +91,18 @@ public abstract class LowComponent {
         env.repaint();
     }
 
+    private void bindInput(LowComponent comp) {
+        if (!canBeBound(comp)) return;
+
+        for (LowComponent input : inputs) {
+            if (input == comp) {
+                inputs.remove(comp);
+                return;
+            }
+        }
+
+        inputs.add(comp);
+    }
 
     public void renderLines(Graphics2D g) {
         g.setColor(Color.BLACK);
@@ -134,9 +144,9 @@ public abstract class LowComponent {
 
     // Abstracts
     public void onLeftClick(MouseEvent e) { }
-    public void onDoubleLeftClick(MouseEvent e) { }
+    public void onDoubleLeftClick() { }
 
     protected abstract Color getBackgroundColor();
-
     protected abstract void renderComponent(Graphics2D g);
+    protected abstract boolean canBeBound(LowComponent component);
 }

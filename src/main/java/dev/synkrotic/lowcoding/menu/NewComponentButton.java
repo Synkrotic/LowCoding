@@ -24,11 +24,15 @@ public class NewComponentButton extends JButton {
             LowComponent component = componentClass
                 .getConstructor(Environment.class)
                 .newInstance(env);
-            component.setLocation(new Coord(150, 50));
+
+            Coord centerWorldCoords = Environment.toWorldCoordinates(
+                new Coord(env.getWidth() / 2, env.getHeight() / 2));
+            component.setLocation(centerWorldCoords.offset(
+                -component.getSize().width() / 2,
+                -component.getSize().height() / 2
+            ));
 
             env.addComponent(component);
-
-            System.out.println(env.getComponentsList().size() + " components in environment.");
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
