@@ -130,7 +130,7 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
                     activeComponent.lineRelease(translatedE);
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
                     if (e.getClickCount() == 2) {
-                        activeComponent.onDoubleLeftClick(translatedE);
+                        activeComponent.onDoubleLeftClick();
                     } else {
                         activeComponent.onLeftClick(translatedE);
                     }
