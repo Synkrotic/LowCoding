@@ -33,7 +33,7 @@ public class IfComponent extends LowComponent {
                 .count();
             return ldt.getType().equals(LowType.BOOLEAN) && boolCount < 1;
         }
-        return component instanceof ActionComponent;
+        return false;
     }
 
     public void execute() {
