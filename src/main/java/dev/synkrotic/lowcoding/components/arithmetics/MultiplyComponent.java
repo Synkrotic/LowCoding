@@ -1,5 +1,6 @@
 package dev.synkrotic.lowcoding.components.arithmetics;
 
+import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowDataType;
 import dev.synkrotic.lowcoding.types.LowType;
@@ -14,7 +15,8 @@ public class MultiplyComponent extends ArithmeticComponent {
     @Override
     public Object getValue() {
         float total = 1f;
-        for (LowDataType input : inputs) {
+        for (LowComponent lowComp : inputs) {
+            LowDataType input = (LowDataType) lowComp;
             if (input.getType().equals(LowType.NUMBER)) {
                 total *= (Float) input.getValue();
             }

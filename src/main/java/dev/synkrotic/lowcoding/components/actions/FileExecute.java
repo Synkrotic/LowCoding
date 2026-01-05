@@ -17,7 +17,8 @@ public class FileExecute extends ActionComponent {
     public void execute() {
         if (inputs.isEmpty()) return;
 
-        for (LowDataType input : inputs) {
+        for (LowComponent lowComp : inputs) {
+            LowDataType input = (LowDataType) lowComp;
             if (!input.getType().equals(LowType.FILE)) continue;
 
             String filePath = input.getValue().toString();

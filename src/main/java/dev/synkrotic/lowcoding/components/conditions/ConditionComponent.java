@@ -22,18 +22,18 @@ public abstract class ConditionComponent extends LowComponent implements LowBool
     @Override
     protected boolean canBeBound(LowComponent component) {
         // Max 2 inputs of any datatype
-        if (inputs.size() >= 2 && !(component instanceof LowDataType)) return false;
+        if (inputs.size() >= 2 || !(component instanceof LowDataType secondInput)) return false;
 
         // First input can be of any datatype
         if (inputs.isEmpty() || inputs.getFirst() == null) return true;
 
         // Both inputs must be of the same type
-        LowDataType firstInput = inputs.getFirst();
-        LowDataType secondInput = component instanceof LowDataType ? (LowDataType) component : null;
+        LowDataType firstInput = inputs.getFirst() instanceof LowDataType ldt ? ldt : null;
 
         // Check if none null
+        assert firstInput != null;
         LowType firstType = firstInput.getType();
-        LowType secondType = secondInput != null ? secondInput.getType() : null;
+        LowType secondType = secondInput.getType();
         if (firstType == null || secondType == null) return false;
 
         return firstType.equals(secondType);

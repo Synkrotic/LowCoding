@@ -41,11 +41,11 @@ public class VariableComponent extends LowComponent implements LowDataType {
     }
 
     @Override
-    protected void onInputAdded(LowDataType inp) {
-        ((VariableComponentDetails) componentDetails).setType(inp.getType());
+    protected void onInputAdded(LowComponent inp) {
+        ((VariableComponentDetails) componentDetails).setType(((LowDataType) inp).getType());
     }
     @Override
-    protected void onInputRemoved(LowDataType inp) {
+    protected void onInputRemoved(LowComponent inp) {
         ((VariableComponentDetails) componentDetails).setType(null);
     }
 
@@ -54,7 +54,7 @@ public class VariableComponent extends LowComponent implements LowDataType {
         if (inputs.isEmpty()) {
             return syncVariable();
         }
-        return inputs.getFirst().getValue();
+        return ((LowDataType) inputs.getFirst()).getValue();
     }
 
     @Override

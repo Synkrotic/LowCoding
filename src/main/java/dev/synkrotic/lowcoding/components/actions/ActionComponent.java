@@ -18,6 +18,7 @@ public abstract class ActionComponent extends LowComponent {
 
     @Override
     protected void renderComponent(Graphics2D g) {
+        if (!inputs.isEmpty()) System.out.println(inputs.size());
         drawStringCentered(g, this.toString());
     }
 

@@ -15,8 +15,8 @@ public class InvertComponent extends LowComponent implements LowBoolean {
 
     @Override
     public Object getValue() {
-        for (LowDataType input : inputs) {
-            return !(Boolean) input.getValue();
+        for (LowComponent input : inputs) {
+            return !(Boolean) ((LowDataType) input).getValue();
         }
         return false;
     }

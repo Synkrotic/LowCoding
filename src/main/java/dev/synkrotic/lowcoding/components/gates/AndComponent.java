@@ -1,5 +1,6 @@
 package dev.synkrotic.lowcoding.components.gates;
 
+import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowDataType;
 import dev.synkrotic.lowcoding.types.LowType;
@@ -18,7 +19,8 @@ public class AndComponent extends GateComponent {
 
     @Override
     public Object getValue() {
-        for (LowDataType input : inputs) {
+        for (LowComponent lowComp : inputs) {
+            LowDataType input = (LowDataType) lowComp;
             if (input.getType().equals(LowType.BOOLEAN)
                     && !((Boolean) input.getValue())) {
                 return false;

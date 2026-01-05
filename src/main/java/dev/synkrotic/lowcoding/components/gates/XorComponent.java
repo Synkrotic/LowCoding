@@ -23,7 +23,7 @@ public class XorComponent extends GateComponent {
     @Override
     public Object getValue() {
         return inputs.stream()
-                .map(LowDataType::getValue)
+                .map(inp -> ((LowDataType) inp).getValue())
                 .filter(b -> (boolean) b)
                 .count() == 1;
     }

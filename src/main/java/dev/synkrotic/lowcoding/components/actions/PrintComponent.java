@@ -17,7 +17,8 @@ public class PrintComponent extends ActionComponent {
     public void execute() {
         if (inputs.isEmpty()) return;
 
-        for (LowDataType input : inputs) {
+        for (LowComponent lowComp : inputs) {
+            if (!(lowComp instanceof LowDataType input)) continue;
             if (!input.getType().equals(LowType.TEXT)) continue;
 
             System.out.println(input.getValue());

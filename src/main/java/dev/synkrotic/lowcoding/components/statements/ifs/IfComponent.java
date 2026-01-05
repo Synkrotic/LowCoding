@@ -27,11 +27,9 @@ public class IfComponent extends LowComponent {
 
     @Override
     protected boolean canBeBound(LowComponent component) {
-        if (component instanceof  LowDataType ldt) {
-            long boolCount = inputs.stream()
-                .filter(i -> i instanceof LowDataType ld && ld.getType().equals(LowType.BOOLEAN))
-                .count();
-            return ldt.getType().equals(LowType.BOOLEAN) && boolCount < 1;
+        if (component instanceof LowDataType ldt) {
+            return inputs.isEmpty()
+                && ldt.getType().equals(LowType.BOOLEAN);
         }
         return false;
     }

@@ -3,7 +3,6 @@ package dev.synkrotic.lowcoding.components.setup;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
-import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,7 +19,7 @@ public abstract class LowComponent implements Serializable {
     protected final ComponentDetails componentDetails;
     protected Environment env;
 
-    protected final List<LowDataType> inputs = new ArrayList<>();
+    protected final List<LowComponent> inputs = new ArrayList<>();
     protected final List<LowComponent> outputs = new ArrayList<>();
 
     public Coord leftClickOffset = null;
@@ -100,7 +99,7 @@ public abstract class LowComponent implements Serializable {
 
     private void bindInput(LowComponent comp) {
         // Check if it needs to be removed
-        for (LowDataType input : inputs) {
+        for (LowComponent input : inputs) {
             if (input == comp) {
                 inputs.remove(comp);
                 onInputRemoved(input);
@@ -114,10 +113,9 @@ public abstract class LowComponent implements Serializable {
         if (!canBeBound(comp)) return;
 
         // Bind
-        LowDataType ldt = comp instanceof LowDataType ? (LowDataType) comp : null;
-        inputs.add(ldt);
+        inputs.add(comp);
         comp.outputs.add(this);
-        onInputAdded(ldt);
+        onInputAdded(comp);
     }
 
 
@@ -135,13 +133,11 @@ public abstract class LowComponent implements Serializable {
             );
         }
 
-        inputs.removeIf(inp -> !env.getComponentsList().contains((LowComponent) inp));
+        inputs.removeIf(inp -> !env.getComponentsList().contains(inp));
 
         // Draw lines to connected components
         if (inputs.isEmpty()) return;
-        for (LowDataType inp : inputs) {
-            LowComponent comp = (LowComponent) inp;
-
+        for (LowComponent comp : inputs) {
             g.drawLine(
                 componentDetails.loc().x() + componentDetails.size().width() / 2,
                 componentDetails.loc().y() + componentDetails.size().height() / 2,
@@ -178,8 +174,8 @@ public abstract class LowComponent implements Serializable {
 
     // Abstracts
     public void onDoubleLeftClick(MouseEvent e) { }
-    protected void onInputAdded(LowDataType inp) { }
-    protected void onInputRemoved(LowDataType inp) { }
+    protected void onInputAdded(LowComponent inp) { }
+    protected void onInputRemoved(LowComponent inp) { }
 
     protected abstract Color getBackgroundColor();
     protected abstract void renderComponent(Graphics2D g);

@@ -1,6 +1,7 @@
 package dev.synkrotic.lowcoding.components.conditions.predicates;
 
 import dev.synkrotic.lowcoding.environment.Environment;
+import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 
@@ -25,8 +26,8 @@ public class GtrConditionComponent extends PredicateComponent {
             return false;
         }
 
-        Float left = (Float) inputs.getFirst().getValue();
-        Float right = (Float) inputs.getLast().getValue();
+        Float left = (Float) ((LowDataType) inputs.getFirst()).getValue();
+        Float right = (Float) ((LowDataType) inputs.getLast()).getValue();
         return left > right;
     }
 }

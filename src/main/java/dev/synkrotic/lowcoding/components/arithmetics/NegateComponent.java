@@ -16,7 +16,8 @@ public class NegateComponent extends ArithmeticComponent {
     @Override
     public Object getValue() {
         float total = 0f;
-        for (LowDataType input : inputs) {
+        for (LowComponent lowComp : inputs) {
+            LowDataType input = (LowDataType) lowComp;
             if (input.getType().equals(LowType.NUMBER)) {
                 total -= (Float) input.getValue();
             }
