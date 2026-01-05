@@ -24,6 +24,4 @@ public abstract class DataTypeComponent extends LowComponent implements LowDataT
 
     @Override
     public abstract String toString();
-
-    public abstract boolean isEqualTo(LowComponent other);
 }

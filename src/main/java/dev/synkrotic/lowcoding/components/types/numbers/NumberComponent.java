@@ -2,7 +2,6 @@ package dev.synkrotic.lowcoding.components.types.numbers;
 
 import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.setup.ComponentDetailsProvider;
 import dev.synkrotic.lowcoding.types.LowNumber;
 
@@ -37,17 +36,6 @@ public class NumberComponent extends DataTypeComponent implements LowNumber {
     @Override
     public String toString() {
         return "Number: " + getValue();
-    }
-
-    @Override
-    public boolean isEqualTo(LowComponent other) {
-        if (other == this) return true;
-
-        if (other instanceof LowNumber otherNum) {
-            return this.getValue() == otherNum.getValue();
-        }
-
-        return false;
     }
 
     @Override

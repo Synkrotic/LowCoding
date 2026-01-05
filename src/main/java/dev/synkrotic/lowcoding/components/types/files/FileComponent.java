@@ -1,7 +1,6 @@
 package dev.synkrotic.lowcoding.components.types.files;
 
 import dev.synkrotic.lowcoding.components.setup.ComponentDetailsProvider;
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowFile;
@@ -19,17 +18,6 @@ public class FileComponent extends DataTypeComponent implements LowFile {
     @Override
     public String toString() {
         return "File: " + getFileName();
-    }
-
-    @Override
-    public boolean isEqualTo(LowComponent other) {
-        if (other == this) return true;
-
-        if (other instanceof LowFile otherFile) {
-            return this.getValue() == otherFile.getValue();
-        }
-
-        return false;
     }
 
     @Override

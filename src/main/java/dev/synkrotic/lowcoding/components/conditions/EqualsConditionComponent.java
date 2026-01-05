@@ -1,7 +1,7 @@
 package dev.synkrotic.lowcoding.components.conditions;
 
-import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
+import dev.synkrotic.lowcoding.types.LowDataType;
 
 import java.awt.*;
 
@@ -26,9 +26,10 @@ public class EqualsConditionComponent extends ConditionComponent {
         if (inputs.size() < 2 || inputs.get(0) == null || inputs.get(1) == null) {
             return false;
         }
+        System.out.println("2 inputs");
 
-        if (inputs.getFirst() instanceof DataTypeComponent firstData
-                && inputs.getLast() instanceof DataTypeComponent lastData) {
+        if (inputs.getFirst() instanceof LowDataType firstData
+                && inputs.getLast() instanceof LowDataType lastData) {
             return firstData.isEqualTo(lastData);
         }
         return false;

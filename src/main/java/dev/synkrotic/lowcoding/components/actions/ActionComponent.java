@@ -14,12 +14,7 @@ public abstract class ActionComponent extends LowComponent {
     }
 
 
-    protected abstract void execute();
-
-    public void update(boolean value) {
-        if (!value) return;
-        execute();
-    }
+    public abstract void execute();
 
     @Override
     protected void renderComponent(Graphics2D g) {

@@ -1,7 +1,6 @@
 package dev.synkrotic.lowcoding.components.conditions.predicates;
 
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.types.LowNumber;
 
 import java.awt.*;
 
@@ -26,8 +25,8 @@ public class LssConditionComponent extends PredicateComponent {
             return false;
         }
 
-        LowNumber left = (LowNumber) inputs.getFirst();
-        LowNumber right = (LowNumber) inputs.getLast();
-        return (Float) left.getValue() < (Float) right.getValue();
+        Float left = (Float) inputs.getFirst().getValue();
+        Float right = (Float) inputs.getLast().getValue();
+        return left < right;
     }
 }

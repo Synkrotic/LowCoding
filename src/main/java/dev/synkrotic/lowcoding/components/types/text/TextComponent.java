@@ -2,9 +2,7 @@ package dev.synkrotic.lowcoding.components.types.text;
 
 import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
-import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.setup.ComponentDetailsProvider;
-import dev.synkrotic.lowcoding.types.LowNumber;
 import dev.synkrotic.lowcoding.types.LowText;
 
 import javax.swing.*;
@@ -34,17 +32,6 @@ public class TextComponent extends DataTypeComponent implements LowText {
     @Override
     public String toString() {
         return "Text: " + getValue();
-    }
-
-    @Override
-    public boolean isEqualTo(LowComponent other) {
-        if (other == this) return true;
-
-        if (other instanceof LowNumber otherNum) {
-            return this.getValue() == otherNum.getValue();
-        }
-
-        return false;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class PrintComponent extends ActionComponent {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         if (inputs.isEmpty()) return;
 
         for (LowDataType input : inputs) {

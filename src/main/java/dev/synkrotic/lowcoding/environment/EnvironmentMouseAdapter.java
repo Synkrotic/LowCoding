@@ -2,7 +2,7 @@ package dev.synkrotic.lowcoding.environment;
 
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.numbers.NumberComponent;
-import dev.synkrotic.lowcoding.types.LowDataType;
+import dev.synkrotic.lowcoding.types.LowNumber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class EnvironmentMouseAdapter extends MouseAdapter implements MouseWheelL
 
         for (LowComponent comp : env.getComponentsList()) {
             if (comp.isMouseOver(worldPt)) {
-                if (comp instanceof LowDataType numberComp) {
+                if ((comp instanceof LowNumber numberComp)) {
                     float currentValue = (Float) numberComp.getValue();
                     NumberComponent numComp = (NumberComponent) numberComp;
 

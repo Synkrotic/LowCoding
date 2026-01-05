@@ -5,6 +5,7 @@ import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowBoolean;
 import dev.synkrotic.lowcoding.types.LowDataType;
+import dev.synkrotic.lowcoding.types.LowType;
 
 import java.awt.*;
 
@@ -15,7 +16,7 @@ public abstract class ConditionComponent extends LowComponent implements LowBool
 
     @Override
     protected void renderComponent(Graphics2D g) {
-        drawStringCentered(g, String.format("%s, %b", this, getValue()));
+        drawStringCentered(g, String.format("%s, %b", this, this.getValue()));
     }
 
     @Override
@@ -29,7 +30,13 @@ public abstract class ConditionComponent extends LowComponent implements LowBool
         // Both inputs must be of the same type
         LowDataType firstInput = inputs.getFirst();
         LowDataType secondInput = component instanceof LowDataType ? (LowDataType) component : null;
-        return firstInput.getType().equals(secondInput != null ? secondInput.getType() : null);
+
+        // Check if none null
+        LowType firstType = firstInput.getType();
+        LowType secondType = secondInput != null ? secondInput.getType() : null;
+        if (firstType == null || secondType == null) return false;
+
+        return firstType.equals(secondType);
     }
 
     @Override

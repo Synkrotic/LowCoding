@@ -1,6 +1,6 @@
 package dev.synkrotic.lowcoding.components.types.bools;
 
-import dev.synkrotic.lowcoding.components.actions.ActionComponent;
+import dev.synkrotic.lowcoding.components.statements.ifs.IfComponent;
 import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
@@ -33,17 +33,6 @@ public class BoolComponent extends DataTypeComponent implements LowBoolean {
     }
 
     @Override
-    public boolean isEqualTo(LowComponent other) {
-        if (other == this) return true;
-
-        if (other instanceof LowBoolean otherBool) {
-            return this.getValue() == otherBool.getValue();
-        }
-
-        return false;
-    }
-
-    @Override
     public Object getValue() {
         return ((BoolComponentDetails) componentDetails).getBool();
     }
@@ -53,9 +42,10 @@ public class BoolComponent extends DataTypeComponent implements LowBoolean {
     }
 
     private void onValueChanged(Boolean value) {
+        if (!value) return;
         for (LowComponent output : outputs) {
-            if (output instanceof ActionComponent aC) {
-                aC.update(value);
+            if (output instanceof IfComponent ifC) {
+                ifC.execute();
             }
         }
     }

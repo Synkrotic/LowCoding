@@ -2,7 +2,6 @@ package dev.synkrotic.lowcoding.environment;
 
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.vars.VariableComponent;
-import dev.synkrotic.lowcoding.components.types.vars.VariableComponentDetails;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.menu.Menu;
 
@@ -51,7 +50,7 @@ public class Environment extends JPanel {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label, BorderLayout.NORTH);
 
-        Menu menu = new Menu(this);
+        JScrollPane menu = Menu.createScrollableMenu(this);
         this.add(menu, BorderLayout.WEST);
 
         EnvironmentMouseAdapter mouseAdapter = new EnvironmentMouseAdapter(this);
