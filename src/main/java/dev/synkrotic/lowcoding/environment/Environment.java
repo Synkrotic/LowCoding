@@ -2,6 +2,7 @@ package dev.synkrotic.lowcoding.environment;
 
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
 import dev.synkrotic.lowcoding.components.types.vars.VariableComponent;
+import dev.synkrotic.lowcoding.components.types.vars.VariableComponentDetails;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.menu.Menu;
 
@@ -91,10 +92,10 @@ public class Environment extends JPanel {
         selectedComponent = null;
         repaint();
     }
-    public Object getVariableValueByName(String name) {
+    public VariableComponent getVariableByName(String name) {
         for (VariableComponent variable : variables) {
             if (variable.getName().equals(name)) {
-                return variable.getValue();
+                return variable;
             }
         }
         return null;

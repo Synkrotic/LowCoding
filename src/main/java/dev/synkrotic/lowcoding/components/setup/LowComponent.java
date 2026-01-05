@@ -98,8 +98,7 @@ public abstract class LowComponent implements Serializable {
     }
 
     private void bindInput(LowComponent comp) {
-        if (!canBeBound(comp)) return;
-
+        // Check if it needs to be removed
         for (LowDataType input : inputs) {
             if (input == comp) {
                 inputs.remove(comp);
@@ -108,6 +107,10 @@ public abstract class LowComponent implements Serializable {
             }
         }
 
+        // Check if can be bound
+        if (!canBeBound(comp)) return;
+
+        // Bind
         LowDataType ldt = comp instanceof LowDataType ? (LowDataType) comp : null;
         inputs.add(ldt);
         onInputAdded(ldt);
@@ -128,15 +131,13 @@ public abstract class LowComponent implements Serializable {
             );
         }
 
+        inputs.removeIf(inp -> !env.getComponentsList().contains((LowComponent) inp));
+
         // Draw lines to connected components
         if (inputs.isEmpty()) return;
         for (LowDataType inp : inputs) {
             LowComponent comp = (LowComponent) inp;
 
-            if (!env.getComponentsList().contains(comp)) {
-                inputs.remove(comp);
-                continue;
-            }
             g.drawLine(
                 componentDetails.loc().x() + componentDetails.size().width() / 2,
                 componentDetails.loc().y() + componentDetails.size().height() / 2,

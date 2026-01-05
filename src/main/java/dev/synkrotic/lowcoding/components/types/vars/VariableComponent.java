@@ -6,7 +6,9 @@ import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.types.LowDataType;
 import dev.synkrotic.lowcoding.types.LowType;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class VariableComponent extends LowComponent implements LowDataType {
     public VariableComponent(Environment env) {
@@ -21,7 +23,16 @@ public class VariableComponent extends LowComponent implements LowDataType {
 
     @Override
     protected void renderComponent(Graphics2D g) {
-        drawStringCentered(g, String.format("Variable: %s", getValue()));
+        drawStringCentered(g, String.format("%s: %s", getName(), getValue()));
+    }
+
+    @Override
+    public void onDoubleLeftClick(MouseEvent e) {
+        String name = JOptionPane.showInputDialog("Name your variable...");
+        if (name != null && !name.isBlank()) {
+            ((VariableComponentDetails) componentDetails).setName(name);
+            env.repaint();
+        }
     }
 
     @Override
@@ -40,13 +51,26 @@ public class VariableComponent extends LowComponent implements LowDataType {
 
     @Override
     public Object getValue() {
-        if (inputs.isEmpty()) return null;
+        if (inputs.isEmpty()) {
+            return syncVariable();
+        }
         return inputs.getFirst().getValue();
     }
 
     @Override
     public LowType getType() {
         return ((VariableComponentDetails) componentDetails).getType();
+    }
+
+    private Object syncVariable() {
+        VariableComponent var = env.getVariableByName(getName());
+        if (var == null) return null;
+        else if (var != this) {
+            ((VariableComponentDetails) componentDetails).setType(var.getType());
+            return var.getValue();
+        }
+        env.repaint();
+        return null;
     }
 
     public String getName() {
