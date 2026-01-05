@@ -1,5 +1,6 @@
 package dev.synkrotic.lowcoding.components.types.bools;
 
+import dev.synkrotic.lowcoding.components.actions.ActionComponent;
 import dev.synkrotic.lowcoding.components.types.DataTypeComponent;
 import dev.synkrotic.lowcoding.environment.Environment;
 import dev.synkrotic.lowcoding.components.setup.LowComponent;
@@ -48,5 +49,14 @@ public class BoolComponent extends DataTypeComponent implements LowBoolean {
     }
     public void setBoolean(boolean value) {
         ((BoolComponentDetails) componentDetails).setBool(value);
+        onValueChanged(value);
+    }
+
+    private void onValueChanged(Boolean value) {
+        for (LowComponent output : outputs) {
+            if (output instanceof ActionComponent aC) {
+                aC.update(value);
+            }
+        }
     }
 }

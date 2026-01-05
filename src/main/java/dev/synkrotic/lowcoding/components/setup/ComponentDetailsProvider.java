@@ -1,7 +1,9 @@
 package dev.synkrotic.lowcoding.components.setup;
 
 import dev.synkrotic.lowcoding.components.types.bools.BoolComponentDetails;
+import dev.synkrotic.lowcoding.components.types.files.FileComponentDetails;
 import dev.synkrotic.lowcoding.components.types.numbers.NumberComponentDetails;
+import dev.synkrotic.lowcoding.components.types.text.TextComponentDetails;
 import dev.synkrotic.lowcoding.components.types.vars.VariableComponentDetails;
 import dev.synkrotic.lowcoding.geo.Coord;
 import dev.synkrotic.lowcoding.geo.Size;
@@ -35,6 +37,22 @@ public class ComponentDetailsProvider {
             new Size(150, 50),
             new Coord(50, 50),
             "variable"
+        );
+    }
+
+    public static TextComponentDetails TEXT_DEFAULTS() {
+        return new TextComponentDetails(
+            new Size(150, 50),
+            new Coord(50, 50),
+            "Lorem Ipsum..."
+        );
+    }
+
+    public static FileComponentDetails FILE_DEFAULTS() {
+        return new FileComponentDetails(
+            new Size(150, 50),
+            new Coord(50, 50),
+            null
         );
     }
 }

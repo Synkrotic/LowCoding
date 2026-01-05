@@ -2,7 +2,9 @@ package dev.synkrotic.lowcoding.types;
 
 public enum LowType {
     NUMBER(LowNumber.class),
-    BOOLEAN(LowBoolean.class);
+    TEXT(LowText.class),
+    BOOLEAN(LowBoolean.class),
+    FILE(LowFile.class);
 
     private final Class<? extends LowDataType> type;
 

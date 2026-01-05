@@ -21,6 +21,7 @@ public abstract class LowComponent implements Serializable {
     protected Environment env;
 
     protected final List<LowDataType> inputs = new ArrayList<>();
+    protected final List<LowComponent> outputs = new ArrayList<>();
 
     public Coord leftClickOffset = null;
 
@@ -103,6 +104,8 @@ public abstract class LowComponent implements Serializable {
             if (input == comp) {
                 inputs.remove(comp);
                 onInputRemoved(input);
+
+                comp.outputs.remove(this);
                 return;
             }
         }
@@ -113,6 +116,7 @@ public abstract class LowComponent implements Serializable {
         // Bind
         LowDataType ldt = comp instanceof LowDataType ? (LowDataType) comp : null;
         inputs.add(ldt);
+        comp.outputs.add(this);
         onInputAdded(ldt);
     }
 
